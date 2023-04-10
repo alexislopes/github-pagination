@@ -1,14 +1,38 @@
 <template>
-  <div class="flex gap-2">
+                          <div class="flex gap-1 h-fit items-center">
 
-    <span class="previous">
-      Previous
-    </span>
-    <span class="next">
+                            <span @click="prev" class="previous" :class="{ 'disabled': isFirstPage }">
+                              Previous
+                            </span>
+                            <p v-for="page in pageCount" :class="{ 'active': currentPage === page }" @click="currentPage = page
+                            "> {{ page }}</p>
+                            <span @click="next" class="next" :class="{ 'disabled': isLastPage }">
       Next
     </span>
   </div>
 </template>
+
+<script setup>
+import { useOffsetPagination } from '@vueuse/core'
+import { ref } from 'vue'
+
+const data = ref([1, 2, 3, 4, 5, 6, 7, 8])
+
+const {
+  currentPage,
+  currentPageSize,
+  pageCount,
+  isFirstPage,
+  isLastPage,
+  prev,
+  next,
+} = useOffsetPagination({
+  total: data.value.length,
+  page: 1,
+  pageSize: 2,
+})
+
+</script>
 
 <style scoped>
 .previous::before {
@@ -32,6 +56,38 @@
 }
 
 span {
-  @apply text-[#2f81f7] flex items-center gap-1
+  @apply text-[#2f81f7] flex items-center gap-1 cursor-pointer select-none border border-transparent px-3 py-2 rounded
+}
+
+
+.next.disabled,
+.previous.disabled {
+  @apply text-[#484f58]
+}
+
+.next.disabled::after,
+.previous.disabled::before {
+  @apply bg-[#484f58] 
+}
+
+p {
+  @apply text-white px-3 py-2 leading-5 cursor-pointer rounded border border-transparent h-fit transition-[border] delay-75
+}
+
+p:hover,
+span:hover {
+  @apply border border-[#30363d] box-border h-fit
+}
+
+span.disabled:hover {
+  @apply border-transparent
+}
+
+.active {
+  @apply bg-[#1f6feb] text-white text-center rounded border-transparent
+}
+
+.active:hover {
+  @apply border-transparent
 }
 </style>
