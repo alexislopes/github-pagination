@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://alexislopes.github.io/nav-nubank/",
+  "homepage": "https://alexislopes.github.io/gh-pagination/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
